@@ -2,51 +2,57 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Graphical Similarity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Graphic similaritá</title>
 
 <!-- Шрифт в стиле Futura -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
-    background: #f7f7f7;
+    margin: 0;
+    min-height: 100vh;
+    background: #fff6cc; /* светло-жёлтый фон */
     font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
 }
 
 .card {
     background: #ffffff;
-    padding: 30px 35px;
-    width: 320px;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    width: 90%;
+    max-width: 420px;
+    padding: 28px 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
 h1 {
-    font-size: 20px;
-    font-weight: 600;
+    margin: 0 0 24px 0;
     text-align: center;
-    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #000;
 }
 
 label {
-    font-size: 13px;
-    font-weight: 400;
-    color: #555;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #000;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    margin: 6px 0 16px 0;
+    padding: 14px 12px;
+    margin-bottom: 20px;
     font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+    border-radius: 10px;
+    border: 1px solid #ccc;
     outline: none;
+    box-sizing: border-box;
 }
 
 input:focus {
@@ -55,17 +61,17 @@ input:focus {
 
 button {
     width: 100%;
-    padding: 12px;
-    font-size: 15px;
+    padding: 14px;
+    font-size: 16px;
     font-weight: 600;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
     background: #000;
     color: #fff;
     cursor: pointer;
 }
 
-button:hover {
+button:active {
     background: #333;
 }
 </style>
@@ -74,12 +80,12 @@ button:hover {
 <body>
 
 <div class="card">
-    <h1>Graphical Similarity</h1>
+    <h1>Graphic similaritá</h1>
 
-    <label>Hypothesis word</label>
+    <label>Vord-hypothesa</label>
     <input type="text" id="w1" placeholder="nocte">
 
-    <label>Other language word</label>
+    <label>Vord in alter lingue</label>
     <input type="text" id="w2" placeholder="night">
 
     <button onclick="calculate()">Calculate</button>
@@ -89,18 +95,18 @@ button:hover {
 function levenshtein(a, b) {
     const n = a.length;
     const m = b.length;
-    const dp = Array.from({length: n+1}, () => Array(m+1).fill(0));
+    const dp = Array.from({length: n + 1}, () => Array(m + 1).fill(0));
 
     for (let i = 0; i <= n; i++) dp[i][0] = i;
     for (let j = 0; j <= m; j++) dp[0][j] = j;
 
     for (let i = 1; i <= n; i++) {
         for (let j = 1; j <= m; j++) {
-            const cost = a[i-1] === b[j-1] ? 0 : 1;
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
             dp[i][j] = Math.min(
-                dp[i-1][j] + 1,
-                dp[i][j-1] + 1,
-                dp[i-1][j-1] + cost
+                dp[i - 1][j] + 1,
+                dp[i][j - 1] + 1,
+                dp[i - 1][j - 1] + cost
             );
         }
     }
@@ -112,7 +118,7 @@ function calculate() {
     const w2 = document.getElementById("w2").value.trim().toLowerCase();
 
     if (!w1 || !w2) {
-        alert("Введите оба слова");
+        alert("Inserte du vordes");
         return;
     }
 
@@ -121,7 +127,7 @@ function calculate() {
 
     alert(
         "Levenshtein distance: " + d +
-        "\nGraphical similarity: " + sim.toFixed(3)
+        "\nGraphic similaritá: " + sim.toFixed(3)
     );
 }
 </script>
