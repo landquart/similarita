@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Graphic similaritá</title>
+<title>Graphic e phonetic similaritá</title>
 
 <!-- Шрифт в стиле Futura -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -79,6 +79,9 @@ button:active {
 
 <body>
 
+<div class="page">
+
+<!-- Первая карточка -->   
 <div class="card">
     <h1>Graphic similaritá</h1>
 
@@ -89,6 +92,55 @@ button:active {
     <input type="text" id="w2" placeholder="night">
 
     <button onclick="calculate()">Calcular</button>
+</div>
+
+    <!-- Вторая карточка: фонетика -->
+<div class="card info-card">
+
+    <h2>Calculation of phonetic similaritá</h2>
+
+    <p>
+        Vu necessa pastan phonetic transcription of Interalen vord in
+        International Phonetic Alphabet (IPA) in linea
+        <b>"Vord-hypothese"</b>.
+        Com vord posse esser reducet intro phonetic scription,
+        Vu posse cognosceskan in libre
+        <i>"International auxiliari lingua INTERAL"</i>,
+        sectionus A) Alphabet (§3) e
+        10. Regules of lection (§42–58).
+    </p>
+
+    <p>
+        In linea <b>"Vord in alter lingue"</b> pasta se phonetic transcription
+        in IPA in alquel ethnic lingue.
+        Infra es indicat saytes por divers lingues, che quel Vu posse trovar
+        phonetic transcription of desirat vord.
+    </p>
+
+    <ul>
+        <li>
+            Anglese —
+            <a href="https://www.internationalphoneticalphabet.org/english-to-ipa-translator/"
+               target="_blank">
+                internationalphoneticalphabet.org
+            </a>
+        </li>
+        <li>
+            German, hispan, fransese, russ, grec —
+            <a href="https://hellpanderrr.github.io/wiktionary_pron/index.html"
+               target="_blank">
+                wiktionary_pron
+            </a>
+        </li>
+        <li>
+            Italian —
+            <a href="https://easypronunciation.com/en/italian-phonetic-transcription-converter"
+               target="_blank">
+                easypronunciation.com
+            </a>
+        </li>
+    </ul>
+
 </div>
 
 <script>
@@ -133,4 +185,5 @@ function calculate() {
 </script>
 
 </body>
+
 </html>
