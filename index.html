@@ -3,100 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Graphic e phonetic similaritá</title>
-
-<!-- Шрифт в стиле Futura -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<title>Similaritá</title>
 
 <style>
 body {
     margin: 0;
-    min-height: 100vh;
-    background: #fff6cc; /* светло-жёлтый фон */
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 20px;
+    background: #fff6cc;
+    font-family: Arial, sans-serif;
 }
 
 .card {
-    background: #ffffff;
-    width: 90%;
+    background: #fff;
     max-width: 420px;
-    padding: 28px 24px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    margin: 0 auto 16px auto;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-h1 {
-    margin: 0 0 24px 0;
+h1, h2 {
     text-align: center;
-    font-size: 22px;
-    font-weight: 600;
-    color: #000;
+    margin-top: 0;
 }
 
 label {
     display: block;
+    margin-top: 12px;
     font-size: 14px;
-    margin-bottom: 6px;
-    color: #000;
 }
 
 input {
     width: 100%;
-    padding: 14px 12px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-top: 4px;
     font-size: 16px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    outline: none;
     box-sizing: border-box;
-}
-
-input:focus {
-    border-color: #000;
 }
 
 button {
     width: 100%;
-    padding: 14px;
+    margin-top: 14px;
+    padding: 12px;
     font-size: 16px;
-    font-weight: 600;
-    border-radius: 12px;
+    font-weight: bold;
+    background: black;
+    color: white;
     border: none;
-    background: #000;
-    color: #fff;
+    border-radius: 10px;
     cursor: pointer;
 }
 
-button:active {
-    background: #333;
+.result {
+    margin-top: 12px;
+    font-size: 15px;
+}
+
+ul {
+    padding-left: 18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="page">
-
-<!-- Первая карточка -->   
+<!-- 1. Graphic similaritá -->
 <div class="card">
-    <h1>Graphic e phonetic similaritá</h1>
+    <h1>Graphic similaritá</h1>
 
     <label>Vord-hypothese</label>
-    <input type="text" id="w1" placeholder="nocte">
+    <input id="w1" type="text">
 
     <label>Vord in alter lingue</label>
-    <input type="text" id="w2" placeholder="night">
+    <input id="w2" type="text">
 
     <button onclick="calculate()">Calcular</button>
+
+    <div id="graphic" class="result">—</div>
 </div>
 
-<div style="height:16px;"></div>
+<!-- 2. Phonetic similaritá -->
+<div class="card">
+    <h2>Phonetic similaritá</h2>
+    <div id="phonetic" class="result">—</div>
+</div>
 
-    <!-- Вторая карточка: фонетика -->
+<!-- 3. Calculation of phonetic similaritá -->
 <div class="card info-card">
 
     <h2>Calculation of phonetic similaritá</h2>
@@ -146,70 +138,78 @@ button:active {
 </div>
 
 <script>
-// Таблица "родственных" букв для психологического сходства
-const similarGroups = [
-    ["p","f","b","v"],
-    ["t","d"],
-    ["k","g","c"],
-    ["s","z"],
-    ["m","n"],
-    ["i","e"],
-    ["o","u"]
-];
+// Обычный Левенштейн
+function levenshtein(a, b) {
+    const n = a.length, m = b.length;
+    const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
 
-// Нормализация слова
-function normalize(word){
-    return word.toLowerCase()
-        .replace(/ph/g,"f")
-        .replace(/th/g,"t")
-        .replace(/ck/g,"k")
-        .replace(/qu/g,"k")
-        .replace(/c(?=[eiy])/g,"s")
-        .replace(/c/g,"k");
-}
+    for (let i = 0; i <= n; i++) dp[i][0] = i;
+    for (let j = 0; j <= m; j++) dp[0][j] = j;
 
-// Сравнение двух букв с психологическим весом
-function similar(a,b){
-    if(a===b) return 0;
-    for(let group of similarGroups){
-        if(group.includes(a) && group.includes(b)) return 0.4;
-    }
-    return 1;
-}
-
-// Убираем слабые позиции
-function trimWeak(word){
-    return word.replace(/[aeiou]?$|t$/,"");
-}
-
-// Модифицированный Levenshtein
-function psychoLevenshtein(a,b){
-    const n=a.length, m=b.length;
-    const dp=Array.from({length:n+1},()=>Array(m+1).fill(0));
-    for(let i=0;i<=n;i++) dp[i][0]=i;
-    for(let j=0;j<=m;j++) dp[0][j]=j;
-    for(let i=1;i<=n;i++){
-        for(let j=1;j<=m;j++){
-            const cost=similar(a[i-1],b[j-1]);
-            dp[i][j]=Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+cost);
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= m; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            dp[i][j] = Math.min(
+                dp[i - 1][j] + 1,
+                dp[i][j - 1] + 1,
+                dp[i - 1][j - 1] + cost
+            );
         }
     }
     return dp[n][m];
 }
 
-// Основная функция подсчёта
-function calculate(){
-    let w1=trimWeak(normalize(document.getElementById("w1").value.trim()));
-    let w2=trimWeak(normalize(document.getElementById("w2").value.trim()));
-    if(!w1||!w2){ alert("Inserte ambi vordes"); return; }
-    const d=psychoLevenshtein(w1,w2);
-    const sim=1-d/Math.max(w1.length,w2.length);
-    document.getElementById("result").innerHTML=
-        "Levenshteinen distantia: "+d+"<br>"+
-        "Psycologic similaritá: "+sim.toFixed(3);
+// Психологические пары
+const pairs = [
+    ["d","t"], ["k","g"], ["b","v"],
+    ["p","f"], ["s","z"], ["n","m"]
+];
+
+function phoneticCost(a, b) {
+    if (a === b) return 0;
+    for (const [x, y] of pairs) {
+        if ((a === x && b === y) || (a === y && b === x)) {
+            return 0.4;
+        }
+    }
+    return 1;
+}
+function psychoLevenshtein(a, b) {
+    const n = a.length, m = b.length;
+    const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+
+    for (let i = 0; i <= n; i++) dp[i][0] = i;
+    for (let j = 0; j <= m; j++) dp[0][j] = j;
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= m; j++) {
+            dp[i][j] = Math.min(
+                dp[i-1][j-1] + phoneticCost(a[i-1], b[j-1]),
+                dp[i-1][j] + 1,
+                dp[i][j-1] + 0.7
+            );
+        }
+    }
+    return dp[n][m];
+}
+
+function calculate() {
+    const a = w1.value.trim();
+    const b = w2.value.trim();
+    if (!a || !b) return;
+
+    const g = levenshtein(a, b);
+    const p = psychoLevenshtein(a, b);
+
+    graphic.innerHTML =
+        "<b>Graphic similaritá:</b> " +
+        (1 - g / Math.max(a.length, b.length)).toFixed(3);
+
+    phonetic.innerHTML =
+        "<b>Phonetic similaritá:</b> " +
+        (1 - p / Math.max(a.length, b.length)).toFixed(3);
 }
 </script>
 
 </body>
 </html>
-
