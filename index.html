@@ -10,7 +10,7 @@ body {
     margin: 0;
     padding: 20px;
     background: #fff6cc;
-    font-family: Arial, sans-serif;
+    font-family: Montserrat;
 }
 
 .card {
@@ -72,20 +72,29 @@ ul {
     <h1>Graphic similaritá</h1>
 
     <label>Vord-hypothese</label>
-    <input id="w1" type="text">
+    <input id="g1" type="text">
 
     <label>Vord in alter lingue</label>
-    <input id="w2" type="text">
+    <input id="g2" type="text">
 
-    <button onclick="calculate()">Calcular</button>
+    <button onclick="calcGraphic()">Calcular</button>
 
-    <div id="graphic" class="result">—</div>
+    <div id="graphicResult" class="result">—</div>
 </div>
 
 <!-- 2. Phonetic similaritá -->
 <div class="card">
     <h2>Phonetic similaritá</h2>
-    <div id="phonetic" class="result">—</div>
+
+    <label>Vord-hypothese (IPA)</label>
+    <input id="p1" type="text">
+
+    <label>Vord in alter lingue (IPA)</label>
+    <input id="p2" type="text">
+
+    <button onclick="calcPhonetic()">Calcular</button>
+
+    <div id="phoneticResult" class="result">—</div>
 </div>
 
 <!-- 3. Calculation of phonetic similaritá -->
@@ -138,7 +147,7 @@ ul {
 </div>
 
 <script>
-// Обычный Левенштейн
+// обычный Левенштейн (графика)
 function levenshtein(a, b) {
     const n = a.length, m = b.length;
     const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
@@ -150,30 +159,34 @@ function levenshtein(a, b) {
         for (let j = 1; j <= m; j++) {
             const cost = a[i - 1] === b[j - 1] ? 0 : 1;
             dp[i][j] = Math.min(
-                dp[i - 1][j] + 1,
-                dp[i][j - 1] + 1,
-                dp[i - 1][j - 1] + cost
+                dp[i-1][j] + 1,
+                dp[i][j-1] + 1,
+                dp[i-1][j-1] + cost
             );
         }
     }
     return dp[n][m];
 }
 
-// Психологические пары
-const pairs = [
-    ["d","t"], ["k","g"], ["b","v"],
-    ["p","f"], ["s","z"], ["n","m"]
+// психологические фонетические пары
+const phoneticPairs = [
+    ["d","t"],
+    ["k","g"],
+    ["b","v"],
+    ["p","f"],
+    ["s","z"],
+    ["n","m"]
 ];
-
 function phoneticCost(a, b) {
     if (a === b) return 0;
-    for (const [x, y] of pairs) {
+    for (const [x, y] of phoneticPairs) {
         if ((a === x && b === y) || (a === y && b === x)) {
             return 0.4;
         }
     }
     return 1;
 }
+
 function psychoLevenshtein(a, b) {
     const n = a.length, m = b.length;
     const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
@@ -186,28 +199,31 @@ function psychoLevenshtein(a, b) {
             dp[i][j] = Math.min(
                 dp[i-1][j-1] + phoneticCost(a[i-1], b[j-1]),
                 dp[i-1][j] + 1,
-                dp[i][j-1] + 0.7
+                dp[i][j-1] + 1
             );
         }
     }
     return dp[n][m];
 }
 
-function calculate() {
-    const a = w1.value.trim();
-    const b = w2.value.trim();
+function calcGraphic() {
+    const a = g1.value.trim();
+    const b = g2.value.trim();
     if (!a || !b) return;
 
-    const g = levenshtein(a, b);
-    const p = psychoLevenshtein(a, b);
+    const d = levenshtein(a, b);
+    const sim = 1 - d / Math.max(a.length, b.length);
+    graphicResult.innerHTML = sim.toFixed(3);
+}
 
-    graphic.innerHTML =
-        "<b>Graphic similaritá:</b> " +
-        (1 - g / Math.max(a.length, b.length)).toFixed(3);
+function calcPhonetic() {
+    const a = p1.value.trim();
+    const b = p2.value.trim();
+    if (!a || !b) return;
 
-    phonetic.innerHTML =
-        "<b>Phonetic similaritá:</b> " +
-        (1 - p / Math.max(a.length, b.length)).toFixed(3);
+    const d = psychoLevenshtein(a, b);
+    const sim = 1 - d / Math.max(a.length, b.length);
+    phoneticResult.innerHTML = sim.toFixed(3);
 }
 </script>
 
