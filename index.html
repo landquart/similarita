@@ -170,18 +170,37 @@ function levenshtein(a, b) {
 
 // психологические фонетические пары
 const phoneticPairs = [
-    ["d","t"],
+["d","t"],
     ["k","g"],
-    ["b","v"],
-    ["p","f"],
+    ["b","p"],
+    ["v","f"],
     ["s","z"],
-    ["n","m"]
+    ["n","m"],
+    ["ɸ","β"],
+    ["θ","ð"],
+    ["ʃ","ʒ"],
+    ["ʂ","ʐ"],
+    ["x","ɣ"],
+    ["h","ɦ"],
+    ["i","y"],
+    ["ɪ","ʏ"],
+    ["ɨ","ʉ"],
+    ["ɛ","œ"],
+    ["a","ä"],
+    ["ɑ","ɒ"],
+    ["w","u"],
+    ["t͡s","d͡z"],
+    ["t͡ʃ","d͡ʒ"],
+    ["l","ɫ"],
+    ["r","ɾ"],
+    ["e","ø"],
+    ["ə","ɐ"]
 ];
 function phoneticCost(a, b) {
     if (a === b) return 0;
     for (const [x, y] of phoneticPairs) {
         if ((a === x && b === y) || (a === y && b === x)) {
-            return 0.4;
+            return 0.5;
         }
     }
     return 1;
@@ -229,4 +248,5 @@ function calcPhonetic() {
 
 </body>
 </html>
+
 
