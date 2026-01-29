@@ -69,7 +69,7 @@ ul {
 
 <!-- 1. Graphic similaritá -->
 <div class="card">
-    <h1>Graphic similaritá</h1>
+    <h2>Graphic similaritá</h2>
 
     <label>Vord-hypothese</label>
     <input id="g1" type="text">
@@ -147,7 +147,6 @@ ul {
 </div>
 
 <script>
-// обычный Левенштейн (графика)
 function levenshtein(a, b) {
     const n = a.length, m = b.length;
     const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
@@ -157,16 +156,30 @@ function levenshtein(a, b) {
 
     for (let i = 1; i <= n; i++) {
         for (let j = 1; j <= m; j++) {
-            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+
+            let cost;
+            if (a[i - 1] === b[j - 1]) {
+                cost = 0;
+            } else if (
+                (i > 1 && a[i - 1] === b[j - 2]) ||
+                (j > 1 && a[i - 2] === b[j - 1])
+            ) {
+                cost = 0.5;
+            } else {
+                cost = 1;
+            }
+
             dp[i][j] = Math.min(
-                dp[i-1][j] + 1,
-                dp[i][j-1] + 1,
-                dp[i-1][j-1] + cost
+                dp[i - 1][j] + 1,        // удаление
+                dp[i][j - 1] + 1,        // вставка
+                dp[i - 1][j - 1] + cost  // замена / сдвиг
             );
         }
     }
+
     return dp[n][m];
 }
+
 
 // психологические фонетические пары
 const phoneticPairs = [
@@ -248,5 +261,6 @@ function calcPhonetic() {
 
 </body>
 </html>
+
 
 
