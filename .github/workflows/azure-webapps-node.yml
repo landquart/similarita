@@ -1,0 +1,91 @@
+import fs from "fs";
+import fetch from "node-fetch";
+
+const LANGS = ["en", "ru", "de", "es", "fr", "it", "el"];
+const MAX_WORDS = 20000;
+
+// ====== API ======
+const TRANSLATE_API = "https://api.mymemory.translated.net/get";
+const IPA_API = "https://api.dictionaryapi.dev/api/v2/entries";
+
+// ====== utils ======
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+function csvEscape(s = "") {
+  return `"${s.replace(/"/g, '""')}"`;
+}
+
+// ====== translation ======
+async function translate(word, from, to) {
+  const url = `${TRANSLATE_API}?q=${encodeURIComponent(word)}&langpair=${from}|${to}`;
+  const r = await fetch(url);
+  const j = await r.json();
+  return j?.responseData?.translatedText || "";
+}
+
+// ====== IPA ======
+async function getIPA(word, lang) {
+  try {
+    const r = await fetch(`${IPA_API}/${lang}/${encodeURIComponent(word)}`);
+    const j = await r.json();
+    return j?.[0]?.phonetics?.[0]?.text || "";
+  } catch {
+    return "";
+  }
+}
+
+// ====== main ======
+async function build() {
+  const words = fs.readFileSync("eng frequency list.txt", "utf8")
+    .split(/\r?\n/)
+    .slice(0, MAX_WORDS);
+
+  const header = [
+    "en","an_ipa",
+    "ru","ru_ipa",
+    "de","de_ipa",
+    "es","es_ipa",
+    "fr","fr_ipa",
+    "it","it_ipa",
+    "el","el_ipa"
+  ].join(",");
+
+  const out = [header];
+
+  for (let i = 0; i < words.length; i++) {
+    const en = words[i].trim();
+    if (!en) continue;
+
+    const row = {};
+    row.en = en;
+    row.en_ipa = await getIPA(en, "en");
+
+    for (const lang of LANGS.slice(1)) {
+      row[lang] = await translate(en, "en", lang);
+      row[`${lang}_ipa`] = row[lang]
+        ? await getIPA(row[lang], lang)
+        : "";
+      await sleep(400); // анти-бан
+    }
+
+    out.push([
+      "en","en_ipa",
+      "ru","ru_ipa",
+      "de","de_ipa",
+      "es","es_ipa",
+      "fr","fr_ipa",
+      "it","it_ipa",
+      "el","el_ipa"
+    ].map(k => csvEscape(row[k])).join(","));
+
+    console.log(`✔ ${i+1}/${words.length}: ${en}`);
+  }
+
+  fs.writeFileSync("lexicon.csv", out.join("\n"), "utf8");
+  console.log("DONE → lexicon.csv");
+}
+
+build();
+
