@@ -80,6 +80,12 @@ ul {
     <button onclick="calcGraphic()">Calcular</button>
 
     <div id="graphicResult" class="result">—</div>
+
+    <div id="graphicResult" class="result">—</div>
+<button id="graphicExplainBtn" style="display:none" onclick="showExplain('graphic')">
+    Explain
+</button>
+
 </div>
 
 <!-- 2. Phonetic similaritá -->
@@ -95,6 +101,12 @@ ul {
     <button onclick="calcPhonetic()">Calcular</button>
 
     <div id="phoneticResult" class="result">—</div>
+
+    <div id="phoneticResult" class="result">—</div>
+<button id="phoneticExplainBtn" style="display:none" onclick="showExplain('phonetic')">
+    Explain
+</button>
+
 </div>
 
 <!-- 3. Calculation of phonetic similaritá -->
@@ -147,6 +159,9 @@ ul {
 </div>
 
 <script>
+    let graphicExplanation = "";
+let phoneticExplanation = "";
+
 function levenshtein(a, b) {
     const n = a.length, m = b.length;
     const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
@@ -267,6 +282,24 @@ function calcGraphic() {
 
     const d = levenshtein(a, b);
     const sim = 1 - d / Math.max(a.length, b.length);
+    graphicExplanation =
+`Graphic similaritá
+
+Formula:
+1 − (Levenshtein distance / max(word lengths))
+
+Word A: ${a}
+Word B: ${b}
+
+Levenshtein distance: ${d}
+Max length: ${Math.max(a.length, b.length)}
+
+Result:
+${sim.toFixed(3)}
+`;
+
+graphicExplainBtn.style.display = "block";
+
     graphicResult.innerHTML = sim.toFixed(3);
 }
 
@@ -277,12 +310,64 @@ function calcPhonetic() {
 
     const d = psychoLevenshtein(a, b);
     const sim = 1 - d / Math.max(a.length, b.length);
+    phoneticExplanation =
+`Phonetic similaritá
+
+Formula:
+1 − (Psycho-Levenshtein / max(length))
+
+IPA A: ${a}
+IPA B: ${b}
+
+Similar sounds used:
+${phoneticPairs.map(p => p[0] + " ↔ " + p[1]).join(", ")}
+
+Distance: ${d}
+
+Result:
+${sim.toFixed(3)}
+`;
+
+phoneticExplainBtn.style.display = "block";
+
     phoneticResult.innerHTML = sim.toFixed(3);
 }
+    function showExplain(type){
+    explainModal.style.display = "block";
+    explainText.textContent =
+        type === "graphic" ? graphicExplanation : phoneticExplanation;
+}
+
+function closeExplain(){
+    explainModal.style.display = "none";
+}
+
 </script>
+
+    <div id="explainModal" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:1000;
+">
+    <div style="
+        background:#fff;
+        max-width:600px;
+        margin:8% auto;
+        padding:20px;
+        border-radius:12px;
+        max-height:70vh;
+        overflow:auto;
+    ">
+        <button onclick="closeExplain()" style="float:right">✖</button>
+        <pre id="explainText"></pre>
+    </div>
+</div>
 
 </body>
 </html>
+
 
 
 
