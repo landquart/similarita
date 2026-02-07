@@ -83,7 +83,7 @@ ul {
 
     <div id="graphicResult" class="result">—</div>
 <button id="graphicExplainBtn" style="display:none" onclick="showExplain('graphic')">
-    Explain
+    Explanar
 </button>
 
 </div>
@@ -104,7 +104,7 @@ ul {
 
     <div id="phoneticResult" class="result">—</div>
 <button id="phoneticExplainBtn" style="display:none" onclick="showExplain('phonetic')">
-    Explain
+    Explanar
 </button>
 
 </div>
@@ -286,15 +286,15 @@ function calcGraphic() {
 `Graphic similaritá
 
 Formula:
-1 − (Levenshtein distance / max(word lengths))
+1 − (Levenshteinen distantia/Maximal vorden longituda)
 
-Word A: ${a}
-Word B: ${b}
+Vord A: ${a}
+Vord B: ${b}
 
-Levenshtein distance: ${d}
-Max length: ${Math.max(a.length, b.length)}
+Levenshteinen distantia: ${d}
+Maximal longituda: ${Math.max(a.length, b.length)}
 
-Result:
+Resultate:
 ${sim.toFixed(3)}
 `;
 
@@ -314,17 +314,17 @@ function calcPhonetic() {
 `Phonetic similaritá
 
 Formula:
-1 − (Psycho-Levenshtein / max(length))
+1 − (Psycolevenshtein/Maximal longituda)
 
 IPA A: ${a}
 IPA B: ${b}
 
-Similar sounds used:
+Usat similari sones:
 ${phoneticPairs.map(p => p[0] + " ↔ " + p[1]).join(", ")}
 
-Distance: ${d}
+Distantia: ${d}
 
-Result:
+Resultate:
 ${sim.toFixed(3)}
 `;
 
@@ -367,6 +367,7 @@ function closeExplain(){
 
 </body>
 </html>
+
 
 
 
