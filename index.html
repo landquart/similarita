@@ -330,16 +330,6 @@ const phoneticPairSet = new Set(
 );
 
 
-const phoneticPairs = phoneticSimilarityGroups.flatMap(group => {
-    const pairs = [];
-    for (let i = 0; i < group.length; i++) {
-        for (let j = i + 1; j < group.length; j++) {
-            pairs.push([group[i], group[j]]);
-        }
-    }
-    return pairs;
-});
-
 function phoneticCost(a, b) {
     if (a === b) return 0;
     return phoneticPairSet.has(`${a}|${b}`) ? 0.5 : 1;
@@ -463,12 +453,12 @@ function calcPhonetic() {
 `Phonetic similaritá
 
 Formula:
-1 − (Psycolevenshtein/Maximal longituda)
+1 − (Psycolevenshtein/Maximal vorden longituda)
 
 IPA A: ${a}
 IPA B: ${b}
-Tokenes A: ${tokensA.join(" ")}
-Tokenes B: ${tokensB.join(" ")}
+Tókenes A: ${tokensA.join(" ")}
+Tókenes B: ${tokensB.join(" ")}
 
 Usat similari sones:
 ${phoneticPairs.map(p => p[0] + " ↔ " + p[1]).join(", ")}
@@ -503,7 +493,6 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
-
 
 
 
