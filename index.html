@@ -168,7 +168,41 @@ ul {
 
 </div>
 
-<script>
+  <div id="explainModal" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:1000;
+">
+    <div class="modal-inner" style="
+        background:#fff;
+        max-width:600px;
+        margin:8% auto;
+        padding:24px;
+        border-radius:12px;
+        max-height:70vh;
+        overflow:auto;
+    ">
+        <div id="explainText"></div>
+
+        <button onclick="closeExplain()" style="margin-top:10px">
+            Close
+        </button>
+    </div>
+</div>
+
+    <script>
+    window.onload = function() {
+    const graphicResult = document.getElementById("graphicResult");
+const phoneticResult = document.getElementById("phoneticResult");
+const graphicExplainBtn = document.getElementById("graphicExplainBtn");
+const phoneticExplainBtn = document.getElementById("phoneticExplainBtn");
+const explainModal = document.getElementById("explainModal");
+const explainText = document.getElementById("explainText");
+
+};
+  
     let graphicExplanation = "";
 let phoneticExplanation = "";
 
@@ -353,29 +387,6 @@ function closeExplain(){
 
 </script>
 
-  <div id="explainModal" style="
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    z-index:1000;
-">
-    <div class="modal-inner" style="
-        background:#fff;
-        max-width:600px;
-        margin:8% auto;
-        padding:24px;
-        border-radius:12px;
-        max-height:70vh;
-        overflow:auto;
-    ">
-        <div id="explainText"></div>
-
-        <button onclick="closeExplain()" style="margin-top:10px">
-            Close
-        </button>
-    </div>
-</div>
-
 </body>
 </html>
+
