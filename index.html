@@ -411,7 +411,12 @@ function shiftSimilarity(a,b){
 function calcGraphic() {
     const a = normalize(g1.value);
     const b = normalize(g2.value);
-    if (!a || !b) return;
+    if (!a || !b) {
+        graphicResult.textContent = "Plis inscriber ambi vordes";
+        graphicExplainBtn.style.display = "none";
+        return;
+    }
+
 
     const d = levenshtein(a, b);
     const maxLen = Math.max(a.length, b.length);
@@ -440,7 +445,12 @@ ${sim.toFixed(3)}
 function calcPhonetic() {
     const a = normalize(p1.value);
     const b = normalize(p2.value);
-    if (!a || !b) return;
+    if (!a || !b) {
+        phoneticResult.textContent = "Plis inscriber ambi vordes in IPA";
+        phoneticExplainBtn.style.display = "none";
+        return;
+    }
+
 
     const tokensA = tokenizePhonetic(a);
     const tokensB = tokenizePhonetic(b);
@@ -493,6 +503,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
