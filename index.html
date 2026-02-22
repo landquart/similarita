@@ -302,7 +302,7 @@ const phoneticPairs = [
     ["w","u"], ["t͡s","d͡z"], ["t͡ʃ","d͡ʒ"], ["l","ɫ"], ["r","ɾ"], ["e","ø"], ["ə","ɐ"]
 ];
 
-function phoneticCost(a, b) {␊
+function phoneticCost(a, b) {
     if (a === b) return 0;
     for (const [x, y] of phoneticPairs) {
         if ((a === x && b === y) || (a === y && b === x)) {
@@ -459,4 +459,5 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
