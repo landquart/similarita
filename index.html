@@ -52,6 +52,22 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: all 0.3s ease; /* плавный переход */
+}
+
+button:hover {
+    transform: scale(1.07); /* лёгкое увеличение */
+    background: linear-gradient(45deg, #ff6b6b, #f7d794, #6a89cc, #38ada9);
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease infinite;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* лёгкая тень */
+}
+
+/* Анимация градиента */
+@keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
 }
 
 .result {
@@ -416,6 +432,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
