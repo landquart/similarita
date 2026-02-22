@@ -78,6 +78,32 @@ ul {
     button:active {
     transform: scale(0.98);
 }
+
+    #explainModal{
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+#explainModal.show{
+    opacity:1;
+    pointer-events:auto;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.modal-inner{
+    transform: translateY(20px) scale(0.96);
+    opacity:0;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+#explainModal.show .modal-inner{
+    transform: translateY(0) scale(1);
+    opacity:1;
+}
 </style>
 </head>
 
@@ -173,12 +199,14 @@ ul {
 </div>
 
   <div id="explainModal" style="
-    display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.5);
+    background:rgba(0,0,0,.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     z-index:1000;
 ">
+      
     <div class="modal-inner" style="
         background:#fff;
         max-width:600px;
@@ -389,14 +417,15 @@ phoneticExplainBtn.style.display = "block";
 
     phoneticResult.innerHTML = sim.toFixed(3);
 }
-    function showExplain(type){
-    explainModal.style.display = "block";
+   function showExplain(type){
+    explainModal.classList.add("show");
     explainText.textContent =
         type === "graphic" ? graphicExplanation : phoneticExplanation;
 }
 
 function closeExplain(){
-    explainModal.style.display = "none";
+    explainModal.classList.remove("show");
+}
 }
 
         explainModal.onclick = function(e){
@@ -408,6 +437,7 @@ function closeExplain(){
 
 </body>
 </html>
+
 
 
 
