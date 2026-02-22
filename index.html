@@ -296,6 +296,28 @@ function phoneticCost(a, b) {
     return 1;
 }
 
+function tokenizePhonetic(text) {
+    const multiCharSymbols = Array.from(
+        new Set(phoneticPairs.flat().filter(symbol => symbol.length > 1))
+    ).sort((x, y) => y.length - x.length);
+
+    const tokens = [];
+    let index = 0;
+
+    while (index < text.length) {
+        const matched = multiCharSymbols.find(symbol => text.startsWith(symbol, index));
+        if (matched) {
+            tokens.push(matched);
+            index += matched.length;
+        } else {
+            tokens.push(text[index]);
+            index++;
+        }
+    }
+
+    return tokens;
+}
+
 function psychoLevenshtein(a, b) {
     const n = a.length, m = b.length;
     const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
@@ -370,8 +392,11 @@ function calcPhonetic() {
     const b = normalize(p2.value);
     if (!a || !b) return;
 
-    const d = psychoLevenshtein(a, b);
-    const maxLen = Math.max(a.length, b.length);
+    const tokensA = tokenizePhonetic(a);
+    const tokensB = tokenizePhonetic(b);
+
+    const d = psychoLevenshtein(tokensA, tokensB);
+    const maxLen = Math.max(tokensA.length, tokensB.length);
     const sim = 1 - d / maxLen;
 
     phoneticExplanation =
@@ -382,6 +407,8 @@ Formula:
 
 IPA A: ${a}
 IPA B: ${b}
+Tokenes A: ${tokensA.join(" ")}
+Tokenes B: ${tokensB.join(" ")}
 
 Usat similari sones:
 ${phoneticPairs.map(p => p[0] + " ↔ " + p[1]).join(", ")}
