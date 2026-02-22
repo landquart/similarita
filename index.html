@@ -25,13 +25,25 @@
 body {
     margin: 0;
     padding: 32px 16px;
-    background:
-        radial-gradient(1200px 500px at 50% -180px, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 65%),
-        linear-gradient(180deg, var(--bg-start), var(--bg-end));
+   background:#fff6cc;
+    background-size: 180% 180%, 100% 100%;
+    animation: bgFlow 12s ease-in-out infinite alternate;
     min-height: 100vh;
     color: var(--text-main);
-    font-family: "Inter", "Montserrat", "Segoe UI", sans-serif;
+    font-family: Montserrat, sans-serif;
     line-height: 1.5;
+}
+
+    @keyframes bgFlow {
+    0% {
+        background-position: 0% 0%, 0% 0%;
+    }
+    50% {
+        background-position: 50% 8%, 0% 0%;
+    }
+    100% {
+        background-position: 100% 0%, 0% 0%;
+    }
 }
 
 .card {
@@ -583,6 +595,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
