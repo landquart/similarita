@@ -6,17 +6,16 @@
 <title>Similaritá</title>
 
 <style>
-<style>
 :root {
-    --bg-start: #f8f4ff;
-    --bg-end: #eef8ff;
-    --surface: rgba(255, 255, 255, 0.92);
+    --bg-start: #fff8c4;
+    --bg-end: #fff3a8;
+    --surface: #ffffff;
     --surface-strong: #ffffff;
-    --text-main: #1f2937;
-    --text-muted: #6b7280;
-    --accent: #5b63ff;
-    --accent-hover: #4b52e2;
-    --accent-soft: rgba(91, 99, 255, 0.12);
+    --text-main: #111111;
+    --text-muted: #2f2f2f;
+    --accent: #111111;
+    --accent-hover: #000000;
+    --accent-soft: rgba(17, 17, 17, 0.15);
     --radius-lg: 18px;
     --radius-md: 12px;
     --shadow-card: 0 12px 30px rgba(31, 41, 55, 0.12);
@@ -27,6 +26,7 @@ body {
     margin: 0;
     padding: 32px 16px;
     background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+    min-height: 100vh;
     color: var(--text-main);
     font-family: "Inter", "Montserrat", "Segoe UI", sans-serif;
     line-height: 1.5;
@@ -34,9 +34,7 @@ body {
 
 .card {
     background: var(--surface);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #ececec;
     max-width: 520px;
     margin: 0 auto 18px auto;
     padding: 22px;
@@ -100,7 +98,7 @@ button {
 button:hover {
     transform: translateY(-1px);
     background: var(--accent-hover);
-    box-shadow: 0 10px 24px rgba(75, 82, 226, 0.3);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
 .result {
@@ -273,7 +271,7 @@ button:active {
     -webkit-backdrop-filter: blur(6px);
     z-index:1000;
 ">
-      
+
     <div class="modal-inner" style="
         background:#fff;
         max-width:600px;
@@ -349,32 +347,32 @@ function levenshtein(a, b) {
 
 // фонетические пары
 const phoneticPairs = [
-    ["d", "t"], 
-    ["k", "g"], 
-    ["b", "p"], 
-    ["v", "f"], 
-    ["b", "v"], 
-    ["p", "f"], 
-    ["s", "z"], 
-    ["n", "m"], 
-    ["ɸ", "β"], 
-    ["θ", "ð"], 
-    ["ʃ", "ʒ"], 
-    ["ʂ", "ʐ"], 
-    ["x", "ɣ"], 
-    ["h", "ɦ"], 
-    ["i", "y"], 
-    ["ɪ", "ʏ"], 
-    ["ɨ", "ʉ"], 
-    ["ɛ", "œ"], 
-    ["a", "ä"], 
+    ["d", "t"],
+    ["k", "g"],
+    ["b", "p"],
+    ["v", "f"],
+    ["b", "v"],
+    ["p", "f"],
+    ["s", "z"],
+    ["n", "m"],
+    ["ɸ", "β"],
+    ["θ", "ð"],
+    ["ʃ", "ʒ"],
+    ["ʂ", "ʐ"],
+    ["x", "ɣ"],
+    ["h", "ɦ"],
+    ["i", "y"],
+    ["ɪ", "ʏ"],
+    ["ɨ", "ʉ"],
+    ["ɛ", "œ"],
+    ["a", "ä"],
     ["ɑ", "ɒ"],
-    ["w", "u"], 
-    ["t͡s", "d͡z"], 
-    ["t͡ʃ", "d͡ʒ"], 
-    ["l", "ɫ"], 
-    ["r", "ɾ"], 
-    ["e", "ø"], 
+    ["w", "u"],
+    ["t͡s", "d͡z"],
+    ["t͡ʃ", "d͡ʒ"],
+    ["l", "ɫ"],
+    ["r", "ɾ"],
+    ["e", "ø"],
     ["ə", "ɐ"]
 ];
 
@@ -546,6 +544,9 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
+
+
 
 
 
