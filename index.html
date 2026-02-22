@@ -204,7 +204,21 @@ ul {
     transform: translateY(20px) scale(0.96);
     opacity:0;
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
 }
+
+body.dark-theme .modal-inner {
+    background: #1b2234;
+    color: #ffffff;
+    border-color: #36435f;
+}
+
+body.dark-theme #explainText {
+    color: #ffffff;
+}
+
 
 button:active {
     transform: scale(0.98);
@@ -357,7 +371,6 @@ button:active {
 ">
 
     <div class="modal-inner" style="
-        background:#fff;
         max-width:600px;
         width:100%;
         margin:0;
@@ -644,6 +657,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
