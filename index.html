@@ -225,7 +225,7 @@ ul {
 </div>
 
     <script>
-    const g1 = document.getElementById("g1");
+const g1 = document.getElementById("g1");
 const g2 = document.getElementById("g2");
 const p1 = document.getElementById("p1");
 const p2 = document.getElementById("p2");
@@ -239,12 +239,12 @@ const phoneticExplainBtn = document.getElementById("phoneticExplainBtn");
 const explainModal = document.getElementById("explainModal");
 const explainText = document.getElementById("explainText");
 
+let graphicExplanation = "";
+let phoneticExplanation = "";
+
 function normalize(text){
     return text.trim().toLowerCase();
 }
-        
-    let graphicExplanation = "";
-let phoneticExplanation = "";
 
 function levenshtein(a, b) {
     const n = a.length, m = b.length;
@@ -255,7 +255,6 @@ function levenshtein(a, b) {
 
     for (let i = 1; i <= n; i++) {
         for (let j = 1; j <= m; j++) {
-
             let cost;
             if (a[i - 1] === b[j - 1]) {
                 cost = 0;
@@ -269,9 +268,9 @@ function levenshtein(a, b) {
             }
 
             dp[i][j] = Math.min(
-                dp[i - 1][j] + 1,        // удаление
-                dp[i][j - 1] + 1,        // вставка
-                dp[i - 1][j - 1] + cost  // замена / сдвиг
+                dp[i - 1][j] + 1,
+                dp[i][j - 1] + 1,
+                dp[i - 1][j - 1] + cost
             );
         }
     }
@@ -279,34 +278,14 @@ function levenshtein(a, b) {
     return dp[n][m];
 }
 
-// психологические фонетические пары
+// фонетические пары
 const phoneticPairs = [
-["d","t"],
-    ["k","g"],
-    ["b","p"],
-    ["v","f"],
-    ["s","z"],
-    ["n","m"],
-    ["ɸ","β"],
-    ["θ","ð"],
-    ["ʃ","ʒ"],
-    ["ʂ","ʐ"],
-    ["x","ɣ"],
-    ["h","ɦ"],
-    ["i","y"],
-    ["ɪ","ʏ"],
-    ["ɨ","ʉ"],
-    ["ɛ","œ"],
-    ["a","ä"],
-    ["ɑ","ɒ"],
-    ["w","u"],
-    ["t͡s","d͡z"],
-    ["t͡ʃ","d͡ʒ"],
-    ["l","ɫ"],
-    ["r","ɾ"],
-    ["e","ø"],
-    ["ə","ɐ"]
+    ["d","t"], ["k","g"], ["b","p"], ["v","f"], ["s","z"], ["n","m"],
+    ["ɸ","β"], ["θ","ð"], ["ʃ","ʒ"], ["ʂ","ʐ"], ["x","ɣ"], ["h","ɦ"],
+    ["i","y"], ["ɪ","ʏ"], ["ɨ","ʉ"], ["ɛ","œ"], ["a","ä"], ["ɑ","ɒ"],
+    ["w","u"], ["t͡s","d͡z"], ["t͡ʃ","d͡ʒ"], ["l","ɫ"], ["r","ɾ"], ["e","ø"], ["ə","ɐ"]
 ];
+
 function phoneticCost(a, b) {
     if (a === b) return 0;
     for (const [x, y] of phoneticPairs) {
@@ -336,7 +315,6 @@ function psychoLevenshtein(a, b) {
     return dp[n][m];
 }
 
-    /* === СМЕЩЕНИЕ === */
 function shiftSimilarity(a,b){
     const scores={0:1.0,1:0.5,2:0.4,3:0.3};
     let best=0;
@@ -357,15 +335,16 @@ function shiftSimilarity(a,b){
     }
     return best;
 }
-    
+
 function calcGraphic() {
-   const a = normalize(g1.value);
-const b = normalize(g2.value);
+    const a = normalize(g1.value);
+    const b = normalize(g2.value);
     if (!a || !b) return;
 
     const d = levenshtein(a, b);
-   const maxLen = Math.max(a.length, b.length);
-const sim = 1 - d / maxLen;
+    const maxLen = Math.max(a.length, b.length);
+    const sim = 1 - d / maxLen;
+
     graphicExplanation =
 `Graphic similaritá
 
@@ -382,19 +361,19 @@ Resultate:
 ${sim.toFixed(3)}
 `;
 
-graphicExplainBtn.style.display = "block";
-
+    graphicExplainBtn.style.display = "block";
     graphicResult.innerHTML = sim.toFixed(3);
 }
 
 function calcPhonetic() {
-   const a = normalize(p1.value);
-const b = normalize(p2.value);
+    const a = normalize(p1.value);
+    const b = normalize(p2.value);
     if (!a || !b) return;
 
     const d = psychoLevenshtein(a, b);
     const maxLen = Math.max(a.length, b.length);
-const sim = 1 - d / maxLen;
+    const sim = 1 - d / maxLen;
+
     phoneticExplanation =
 `Phonetic similaritá
 
@@ -413,11 +392,11 @@ Resultate:
 ${sim.toFixed(3)}
 `;
 
-phoneticExplainBtn.style.display = "block";
-
+    phoneticExplainBtn.style.display = "block";
     phoneticResult.innerHTML = sim.toFixed(3);
 }
-   function showExplain(type){
+
+function showExplain(type){
     explainModal.classList.add("show");
     explainText.textContent =
         type === "graphic" ? graphicExplanation : phoneticExplanation;
@@ -426,9 +405,9 @@ phoneticExplainBtn.style.display = "block";
 function closeExplain(){
     explainModal.classList.remove("show");
 }
-}
 
-        explainModal.onclick = function(e){
+// Закрытие модального при клике вне окна
+explainModal.onclick = function(e){
     if(e.target === explainModal){
         closeExplain();
     }
@@ -437,6 +416,7 @@ function closeExplain(){
 
 </body>
 </html>
+
 
 
 
