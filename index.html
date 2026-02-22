@@ -74,6 +74,10 @@ ul {
     display:flex;
     flex-direction:column;
 }
+
+    button:active {
+    transform: scale(0.98);
+}
 </style>
 </head>
 
@@ -193,16 +197,24 @@ ul {
 </div>
 
     <script>
-    window.onload = function() {
-    const graphicResult = document.getElementById("graphicResult");
+    const g1 = document.getElementById("g1");
+const g2 = document.getElementById("g2");
+const p1 = document.getElementById("p1");
+const p2 = document.getElementById("p2");
+
+const graphicResult = document.getElementById("graphicResult");
 const phoneticResult = document.getElementById("phoneticResult");
+
 const graphicExplainBtn = document.getElementById("graphicExplainBtn");
 const phoneticExplainBtn = document.getElementById("phoneticExplainBtn");
+
 const explainModal = document.getElementById("explainModal");
 const explainText = document.getElementById("explainText");
 
-};
-  
+function normalize(text){
+    return text.trim().toLowerCase();
+}
+        
     let graphicExplanation = "";
 let phoneticExplanation = "";
 
@@ -319,12 +331,13 @@ function shiftSimilarity(a,b){
 }
     
 function calcGraphic() {
-    const a = g1.value.trim();
-    const b = g2.value.trim();
+   const a = normalize(g1.value);
+const b = normalize(g2.value);
     if (!a || !b) return;
 
     const d = levenshtein(a, b);
-    const sim = 1 - d / Math.max(a.length, b.length);
+   const maxLen = Math.max(a.length, b.length);
+const sim = 1 - d / maxLen;
     graphicExplanation =
 `Graphic similaritá
 
@@ -335,7 +348,7 @@ Vord A: ${a}
 Vord B: ${b}
 
 Levenshteinen distantia: ${d}
-Maximal longituda: ${Math.max(a.length, b.length)}
+Maximal longituda: ${maxLen}
 
 Resultate:
 ${sim.toFixed(3)}
@@ -347,12 +360,13 @@ graphicExplainBtn.style.display = "block";
 }
 
 function calcPhonetic() {
-    const a = p1.value.trim();
-    const b = p2.value.trim();
+   const a = normalize(p1.value);
+const b = normalize(p2.value);
     if (!a || !b) return;
 
     const d = psychoLevenshtein(a, b);
-    const sim = 1 - d / Math.max(a.length, b.length);
+    const maxLen = Math.max(a.length, b.length);
+const sim = 1 - d / maxLen;
     phoneticExplanation =
 `Phonetic similaritá
 
@@ -385,9 +399,15 @@ function closeExplain(){
     explainModal.style.display = "none";
 }
 
+        explainModal.onclick = function(e){
+    if(e.target === explainModal){
+        closeExplain();
+    }
+};
 </script>
 
 </body>
 </html>
+
 
 
