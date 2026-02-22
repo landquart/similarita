@@ -101,6 +101,31 @@ button:hover {
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
+.explain-btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.explain-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(120, 201, 255, 0.35), rgba(120, 201, 255, 0) 46%),
+        radial-gradient(circle at calc(100% - var(--mx, 50%)) calc(100% - var(--my, 50%)), rgba(197, 161, 255, 0.28), rgba(197, 161, 255, 0) 52%),
+        linear-gradient(130deg, rgba(255, 212, 139, 0.2), rgba(158, 241, 198, 0.2));
+    opacity: 0;
+    transition: opacity 0.38s ease;
+    z-index: -1;
+}
+
+.explain-btn:hover::before,
+.explain-btn:focus-visible::before {
+    opacity: 1;
+}
+
+
 .result {
     margin-top: 14px;
     padding: 10px 12px;
@@ -139,6 +164,11 @@ button:active {
     transition: opacity 0.35s ease;
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 #explainModal.show{
@@ -275,13 +305,14 @@ button:active {
     <div class="modal-inner" style="
         background:#fff;
         max-width:600px;
-        margin:8% auto;
+        width:100%;
+        margin:0;
         padding:24px;
         border-radius:16px;
         max-height:70vh;
         overflow:auto;
         box-shadow: var(--shadow-card);
-    ">
+">
 
         <div id="explainText"></div>
 
@@ -302,6 +333,19 @@ const phoneticResult = document.getElementById("phoneticResult");
 
 const graphicExplainBtn = document.getElementById("graphicExplainBtn");
 const phoneticExplainBtn = document.getElementById("phoneticExplainBtn");
+
+graphicExplainBtn.classList.add("explain-btn");
+phoneticExplainBtn.classList.add("explain-btn");
+
+[graphicExplainBtn, phoneticExplainBtn].forEach((button) => {
+    button.addEventListener("mousemove", (event) => {
+        const rect = button.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        button.style.setProperty("--mx", `${x}%`);
+        button.style.setProperty("--my", `${y}%`);
+    });
+});
 
 const explainModal = document.getElementById("explainModal");
 const explainText = document.getElementById("explainText");
@@ -380,12 +424,10 @@ const phoneticPairSet = new Set(
     phoneticPairs.flatMap(([x, y]) => [`${x}|${y}`, `${y}|${x}`])
 );
 
-
 function phoneticCost(a, b) {
     if (a === b) return 0;
     return phoneticPairSet.has(`${a}|${b}`) ? 0.5 : 1;
 }
-
 
 function tokenizePhonetic(text) {
     const multiCharSymbols = Array.from(
@@ -458,7 +500,6 @@ function calcGraphic() {
         return;
     }
 
-
     const d = levenshtein(a, b);
     const maxLen = Math.max(a.length, b.length);
     const sim = 1 - d / maxLen;
@@ -491,7 +532,6 @@ function calcPhonetic() {
         phoneticExplainBtn.style.display = "none";
         return;
     }
-
 
     const tokensA = tokenizePhonetic(a);
     const tokensB = tokenizePhonetic(b);
@@ -544,6 +584,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
