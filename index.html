@@ -6,73 +6,110 @@
 <title>Similaritá</title>
 
 <style>
+<style>
+:root {
+    --bg-start: #f8f4ff;
+    --bg-end: #eef8ff;
+    --surface: rgba(255, 255, 255, 0.92);
+    --surface-strong: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --accent: #5b63ff;
+    --accent-hover: #4b52e2;
+    --accent-soft: rgba(91, 99, 255, 0.12);
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --shadow-card: 0 12px 30px rgba(31, 41, 55, 0.12);
+    --shadow-soft: 0 6px 20px rgba(31, 41, 55, 0.08);
+}
+
 body {
     margin: 0;
-    padding: 20px;
-    background: #fff6cc;
-    font-family: Montserrat, sans-serif;
+    padding: 32px 16px;
+    background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+    color: var(--text-main);
+    font-family: "Inter", "Montserrat", "Segoe UI", sans-serif;
+    line-height: 1.5;
 }
 
 .card {
-    background: #fff;
-    max-width: 420px;
-    margin: 0 auto 16px auto;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    max-width: 520px;
+    margin: 0 auto 18px auto;
+    padding: 22px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
 }
 
 h1, h2 {
-    text-align: center;
+    text-align: left;
     margin-top: 0;
+    margin-bottom: 14px;
+    letter-spacing: 0.2px;
+}
+
+h2 {
+    font-size: 1.25rem;
 }
 
 label {
     display: block;
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 600;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    margin-top: 4px;
+    padding: 11px 12px;
+    margin-top: 6px;
     font-size: 16px;
     box-sizing: border-box;
+    border: 1px solid #d9deea;
+    border-radius: var(--radius-md);
+    background: var(--surface-strong);
+    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+input:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
 button {
     width: 100%;
-    margin-top: 14px;
+    margin-top: 16px;
     padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    background: black;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    background: var(--accent);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.3s ease; /* плавный переход */
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-    transform: scale(1.07); /* лёгкое увеличение */
-    background: linear-gradient(45deg, #ff6b6b, #f7d794, #6a89cc, #38ada9);
-    background-size: 400% 400%;
-    animation: gradientShift 3s ease infinite;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* лёгкая тень */
-}
-
-/* Анимация градиента */
-@keyframes gradientShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    transform: translateY(-1px);
+    background: var(--accent-hover);
+    box-shadow: 0 10px 24px rgba(75, 82, 226, 0.3);
 }
 
 .result {
-    margin-top: 12px;
+    margin-top: 14px;
+    padding: 10px 12px;
     font-size: 15px;
+    border-radius: 10px;
+    background: #f8faff;
+    border: 1px solid #e4eaf9;
 }
 
 ul {
@@ -80,25 +117,28 @@ ul {
 }
 
 #explainText{
-    font-family: Montserrat, sans-serif;
+    font-family: "Inter", "Montserrat", sans-serif;
     white-space: pre-wrap;
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 20px;
 }
 
 .modal-inner{
     display:flex;
     flex-direction:column;
+    transform: translateY(20px) scale(0.96);
+    opacity:0;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
 }
 
-    button:active {
+button:active {
     transform: scale(0.98);
 }
 
-    #explainModal{
+#explainModal{
     opacity:0;
     pointer-events:none;
-    transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+    transition: opacity 0.35s ease;
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
 }
@@ -106,19 +146,30 @@ ul {
 #explainModal.show{
     opacity:1;
     pointer-events:auto;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-}
-
-.modal-inner{
-    transform: translateY(20px) scale(0.96);
-    opacity:0;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+  backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 #explainModal.show .modal-inner{
     transform: translateY(0) scale(1);
     opacity:1;
+}
+
+.info-card p,
+.info-card li {
+    color: #374151;
+    font-size: 14px;
+}
+
+.info-card a {
+    color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
 }
 </style>
 </head>
@@ -217,7 +268,7 @@ ul {
   <div id="explainModal" style="
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.35);
+    background:rgba(25,30,45,.35);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     z-index:1000;
@@ -228,10 +279,12 @@ ul {
         max-width:600px;
         margin:8% auto;
         padding:24px;
-        border-radius:12px;
+        border-radius:16px;
         max-height:70vh;
         overflow:auto;
+        box-shadow: var(--shadow-card);
     ">
+
         <div id="explainText"></div>
 
         <button onclick="closeExplain()" style="margin-top:10px">
@@ -493,6 +546,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
