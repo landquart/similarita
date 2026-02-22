@@ -62,6 +62,18 @@ button {
 ul {
     padding-left: 18px;
 }
+
+#explainText{
+    font-family: Montserrat, sans-serif;
+    white-space: pre-wrap;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-inner{
+    display:flex;
+    flex-direction:column;
+}
 </style>
 </head>
 
@@ -344,29 +356,33 @@ function closeExplain(){
 
 </script>
 
-    <div id="explainModal" style="
+  <div id="explainModal" style="
     display:none;
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.5);
     z-index:1000;
 ">
-    <div style="
+    <div class="modal-inner" style="
         background:#fff;
         max-width:600px;
         margin:8% auto;
-        padding:20px;
+        padding:24px;
         border-radius:12px;
         max-height:70vh;
         overflow:auto;
     ">
-        <button onclick="closeExplain()" style="float:right">✖</button>
-        <pre id="explainText"></pre>
+        <div id="explainText"></div>
+
+        <button onclick="closeExplain()" style="margin-top:10px">
+            Close
+        </button>
     </div>
 </div>
 
 </body>
 </html>
+
 
 
 
