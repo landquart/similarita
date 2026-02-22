@@ -296,21 +296,55 @@ function levenshtein(a, b) {
 
 // фонетические пары
 const phoneticPairs = [
-    ["d","t"], ["k","g"], ["b","p"], ["v","f"], ["s","z"], ["n","m"],
-    ["ɸ","β"], ["θ","ð"], ["ʃ","ʒ"], ["ʂ","ʐ"], ["x","ɣ"], ["h","ɦ"],
-    ["i","y"], ["ɪ","ʏ"], ["ɨ","ʉ"], ["ɛ","œ"], ["a","ä"], ["ɑ","ɒ"],
-    ["w","u"], ["t͡s","d͡z"], ["t͡ʃ","d͡ʒ"], ["l","ɫ"], ["r","ɾ"], ["e","ø"], ["ə","ɐ"]
+    ["d", "t"], 
+    ["k", "g"], 
+    ["b", "p"], 
+    ["v", "f"], 
+    ["b", "v"], 
+    ["p", "f"], 
+    ["s", "z"], 
+    ["n", "m"], 
+    ["ɸ", "β"], 
+    ["θ", "ð"], 
+    ["ʃ", "ʒ"], 
+    ["ʂ", "ʐ"], 
+    ["x", "ɣ"], 
+    ["h", "ɦ"], 
+    ["i", "y"], 
+    ["ɪ", "ʏ"], 
+    ["ɨ", "ʉ"], 
+    ["ɛ", "œ"], 
+    ["a", "ä"], 
+    ["ɑ", "ɒ"],
+    ["w", "u"], 
+    ["t͡s", "d͡z"], 
+    ["t͡ʃ", "d͡ʒ"], 
+    ["l", "ɫ"], 
+    ["r", "ɾ"], 
+    ["e", "ø"], 
+    ["ə", "ɐ"]
 ];
+
+const phoneticPairSet = new Set(
+    phoneticPairs.flatMap(([x, y]) => [`${x}|${y}`, `${y}|${x}`])
+);
+
+
+const phoneticPairs = phoneticSimilarityGroups.flatMap(group => {
+    const pairs = [];
+    for (let i = 0; i < group.length; i++) {
+        for (let j = i + 1; j < group.length; j++) {
+            pairs.push([group[i], group[j]]);
+        }
+    }
+    return pairs;
+});
 
 function phoneticCost(a, b) {
     if (a === b) return 0;
-    for (const [x, y] of phoneticPairs) {
-        if ((a === x && b === y) || (a === y && b === x)) {
-            return 0.5;
-        }
-    }
-    return 1;
+    return phoneticPairSet.has(`${a}|${b}`) ? 0.5 : 1;
 }
+
 
 function tokenizePhonetic(text) {
     const multiCharSymbols = Array.from(
@@ -459,5 +493,6 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
