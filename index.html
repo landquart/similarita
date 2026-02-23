@@ -7,8 +7,11 @@
 
 <style>
 :root {
-    --bg-start: #fff8c4;
-    --bg-end: #fff3a8;
+    --bg-base: #f9f5ff;
+    --bg-gradient-1: #ffe08d;
+    --bg-gradient-2: #ff9ab4;
+    --bg-gradient-3: #8ad8ff;
+    --bg-gradient-4: #b6ffa8;
     --surface: #ffffff;
     --surface-strong: #ffffff;
     --text-main: #111111;
@@ -25,9 +28,15 @@
 body {
     margin: 0;
     padding: 32px 16px;
-   background:#fff6cc;
-    background-size: 180% 180%, 100% 100%;
-    animation: bgFlow 12s ease-in-out infinite alternate;
+    background-color: var(--bg-base);
+    background-image:
+        radial-gradient(circle at 8% 18%, var(--bg-gradient-1) 0%, transparent 45%),
+        radial-gradient(circle at 88% 12%, var(--bg-gradient-2) 0%, transparent 42%),
+        radial-gradient(circle at 14% 84%, var(--bg-gradient-3) 0%, transparent 43%),
+        radial-gradient(circle at 84% 82%, var(--bg-gradient-4) 0%, transparent 47%),
+        linear-gradient(130deg, #fefbf1, #eef8ff 50%, #f5edff);
+    background-size: 170% 170%, 175% 175%, 180% 180%, 170% 170%, 100% 100%;
+    animation: bgFlow 16s ease-in-out infinite alternate;
     min-height: 100vh;
     color: var(--text-main);
     font-family: Montserrat, sans-serif;
@@ -35,8 +44,11 @@ body {
 }
 
     body.dark-theme {
-    --bg-start: #10131f;
-    --bg-end: #171c2f;
+    --bg-base: #0b1120;
+    --bg-gradient-1: #5145ff;
+    --bg-gradient-2: #00b8ff;
+    --bg-gradient-3: #9f6bff;
+    --bg-gradient-4: #3de4c1;
     --surface: #1f2638;
     --surface-strong: #262f46;
     --text-main: #f5f7ff;
@@ -46,18 +58,17 @@ body {
     --accent-soft: rgba(139, 166, 255, 0.35);
     --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.35);
     --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.28);
-    background: #0f1320;
 }
 
     @keyframes bgFlow {
     0% {
-        background-position: 0% 0%, 0% 0%;
+        background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 0% 0%;
     }
     50% {
-        background-position: 50% 8%, 0% 0%;
+        background-position: 30% 20%, 75% 28%, 22% 76%, 72% 72%, 0% 0%;
     }
     100% {
-        background-position: 100% 0%, 0% 0%;
+        background-position: 100% 10%, 0% 25%, 100% 70%, 0% 85%, 0% 0%;
     }
 }
 
@@ -101,7 +112,12 @@ input {
     border: 1px solid #d9deea;
     border-radius: var(--radius-md);
     background: var(--surface-strong);
+    color: var(--text-main);
     transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+input::placeholder {
+    color: var(--text-muted);
 }
 
 input:focus-visible {
@@ -657,3 +673,4 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
