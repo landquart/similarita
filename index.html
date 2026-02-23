@@ -441,11 +441,24 @@ const explainText = document.getElementById("explainText");
 let graphicExplanation = "";
 let phoneticExplanation = "";
 
-        function toggleTheme() {
-    const isDark = document.body.classList.toggle("dark-theme");
+const THEME_STORAGE_KEY = "similarita.theme";
+
+function applyTheme(isDark) {
+    document.body.classList.toggle("dark-theme", isDark);
     document.getElementById("themeToggle").textContent = isDark
         ? "☀️ Luminosi thema"
         : "🌙 Obscur thema";
+}
+
+function loadThemePreference() {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === "dark") applyTheme(true);
+}
+
+        function toggleTheme() {
+    const isDark = !document.body.classList.contains("dark-theme");
+    applyTheme(isDark);
+    localStorage.setItem(THEME_STORAGE_KEY, isDark ? "dark" : "light");
 }
 
 function normalize(text){
@@ -597,7 +610,9 @@ function calcGraphic() {
 
     const d = levenshtein(a, b);
     const maxLen = Math.max(a.length, b.length);
-    const sim = 1 - d / maxLen;
+    const baseSim = 1 - d / maxLen;
+    const shiftSim = shiftSimilarity(a, b);
+    const sim = Math.max(baseSim, shiftSim);
 
     graphicExplanation =
 `Graphic similaritá
@@ -610,8 +625,10 @@ Vord B: ${b}
 
 Levenshteinen distantia: ${d}
 Maximal longituda: ${maxLen}
+Base score: ${baseSim.toFixed(3)}
+Shift score: ${shiftSim.toFixed(3)}
 
-Resultate:
+Resultate (max):
 ${sim.toFixed(3)}
 `;
 
@@ -633,7 +650,9 @@ function calcPhonetic() {
 
     const d = psychoLevenshtein(tokensA, tokensB);
     const maxLen = Math.max(tokensA.length, tokensB.length);
-    const sim = 1 - d / maxLen;
+    const baseSim = 1 - d / maxLen;
+    const shiftSim = shiftSimilarity(tokensA, tokensB);
+    const sim = Math.max(baseSim, shiftSim);
 
     phoneticExplanation =
 `Phonetic similaritá
@@ -650,14 +669,18 @@ Usat similari sones:
 ${phoneticPairs.map(p => p[0] + " ↔ " + p[1]).join(", ")}
 
 Distantia: ${d}
+Base score: ${baseSim.toFixed(3)}
+Shift score: ${shiftSim.toFixed(3)}
 
-Resultate:
+Resultate (max):
 ${sim.toFixed(3)}
 `;
 
     phoneticExplainBtn.style.display = "block";
     phoneticResult.innerHTML = sim.toFixed(3);
 }
+
+loadThemePreference();
 
 function showExplain(type){
     explainModal.classList.add("show");
@@ -679,4 +702,6 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
+
 
