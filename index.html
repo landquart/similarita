@@ -12,6 +12,9 @@
     --bg-gradient-2: #ff9ab4;
     --bg-gradient-3: #8ad8ff;
     --bg-gradient-4: #b6ffa8;
+    --bg-deep-1: #fefbf1;
+    --bg-deep-2: #eef8ff;
+    --bg-deep-3: #f5edff;
     --surface: #ffffff;
     --surface-strong: #ffffff;
     --text-main: #111111;
@@ -34,9 +37,9 @@ body {
         radial-gradient(circle at 88% 12%, var(--bg-gradient-2) 0%, transparent 42%),
         radial-gradient(circle at 14% 84%, var(--bg-gradient-3) 0%, transparent 43%),
         radial-gradient(circle at 84% 82%, var(--bg-gradient-4) 0%, transparent 47%),
-        linear-gradient(130deg, #fefbf1, #eef8ff 50%, #f5edff);
+        linear-gradient(130deg, var(--bg-deep-1), var(--bg-deep-2) 50%, var(--bg-deep-3));
     background-size: 170% 170%, 175% 175%, 180% 180%, 170% 170%, 100% 100%;
-    animation: bgFlow 16s ease-in-out infinite alternate;
+    animation: bgFlow 9s ease-in-out infinite alternate;
     min-height: 100vh;
     color: var(--text-main);
     font-family: Montserrat, sans-serif;
@@ -45,10 +48,13 @@ body {
 
     body.dark-theme {
     --bg-base: #0b1120;
-    --bg-gradient-1: #5145ff;
-    --bg-gradient-2: #00b8ff;
-    --bg-gradient-3: #9f6bff;
-    --bg-gradient-4: #3de4c1;
+    --bg-gradient-1: #0b1f4f;
+    --bg-gradient-2: #030a1e;
+    --bg-gradient-3: #111b36;
+    --bg-gradient-4: #000000;
+    --bg-deep-1: #02050f;
+    --bg-deep-2: #040917;
+    --bg-deep-3: #000000;
     --surface: #1f2638;
     --surface-strong: #262f46;
     --text-main: #f5f7ff;
