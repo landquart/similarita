@@ -61,7 +61,6 @@ Then open `http://localhost:8000`.
 ## Project structure
 
 - `index.html` — UI, styles, and all JavaScript logic.
-- `phonetica.html` — reserved/empty file.
 
 ## Notes
 
