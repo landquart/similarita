@@ -611,8 +611,7 @@ function calcGraphic() {
     const d = levenshtein(a, b);
     const maxLen = Math.max(a.length, b.length);
     const baseSim = 1 - d / maxLen;
-    const shiftSim = shiftSimilarity(a, b);
-    const sim = Math.max(baseSim, shiftSim);
+   const sim = baseSim;
 
     graphicExplanation =
 `Graphic similaritá
@@ -625,10 +624,8 @@ Vord B: ${b}
 
 Levenshteinen distantia: ${d}
 Maximal longituda: ${maxLen}
-Base score: ${baseSim.toFixed(3)}
-Shift score: ${shiftSim.toFixed(3)}
 
-Resultate (max):
+Resultate:
 ${sim.toFixed(3)}
 `;
 
@@ -651,8 +648,7 @@ function calcPhonetic() {
     const d = psychoLevenshtein(tokensA, tokensB);
     const maxLen = Math.max(tokensA.length, tokensB.length);
     const baseSim = 1 - d / maxLen;
-    const shiftSim = shiftSimilarity(tokensA, tokensB);
-    const sim = Math.max(baseSim, shiftSim);
+   const sim = baseSim;
 
     phoneticExplanation =
 `Phonetic similaritá
@@ -669,10 +665,8 @@ Usat similari sones:
 ${phoneticPairs.map(p => p[0] + " ↔ " + p[1]).join(", ")}
 
 Distantia: ${d}
-Base score: ${baseSim.toFixed(3)}
-Shift score: ${shiftSim.toFixed(3)}
 
-Resultate (max):
+Resultate:
 ${sim.toFixed(3)}
 `;
 
@@ -702,6 +696,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
