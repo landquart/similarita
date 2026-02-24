@@ -33,7 +33,6 @@ Formula:
 "Psycho-Levenshtein" is just taking into account similar sounds (d — t, k — g, b — v, etc.), such pairs receive 0.5 points, not 0.
 
 - Input is tokenized with support for multi-character IPA symbols (t͡s, d͡z, t͡ʃ, d͡ʒ).
-- Weighted substitution cost is used for selected similar sounds.
 - Result is normalized by max token length.
 
 ## Notes
