@@ -16,7 +16,7 @@
 
 ### 1) Graphic similarity
 
-Base score:
+Formula:
 
 ```text
 1 - (Levenshtein distance / max length)
@@ -24,22 +24,17 @@ Base score:
 
 ### 2) Phonetic similarity
 
-- Input is tokenized with support for multi-character IPA symbols.
-- Weighted substitution cost is used for selected similar sounds.
-- Result is normalized by max token length.
+Formula:
 
-## Run locally
-
-This is a static app, so you can simply open `index.html` in a browser.
-
-If you prefer a local server:
-
-```bash
-python3 -m http.server 8000
+```text
+1 - (Psycho-Levenshtein distance / max length)
 ```
 
-Then open `http://localhost:8000`.
+"Psycho-Levenshtein" is just taking into account similar sounds (d — t, k — g, b — v, etc.), such pairs receive 0.5 points, not 0.
 
+- Input is tokenized with support for multi-character IPA symbols (t͡s, d͡z, t͡ʃ, d͡ʒ).
+- Weighted substitution cost is used for selected similar sounds.
+- Result is normalized by max token length.
 
 ## Notes
 
