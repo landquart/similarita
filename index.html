@@ -115,7 +115,7 @@ input {
     margin-top: 6px;
     font-size: 16px;
     box-sizing: border-box;
-    border: 1px solid #d9deea;
+    border: 2px solid #d9deea;
     border-radius: var(--radius-md);
     background: var(--surface-strong);
     color: var(--text-main);
@@ -215,10 +215,23 @@ ul {
 
 #explainText{
     font-family: "Inter", "Montserrat", sans-serif;
-    white-space: pre-wrap;
     font-size: 14px;
     margin-bottom: 20px;
 }
+
+.explain-title {
+    margin: 0 0 14px;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.explain-body {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
 
 .modal-inner{
     display:flex;
@@ -677,9 +690,21 @@ ${sim.toFixed(3)}
 loadThemePreference();
 
 function showExplain(type){
+    const fullText = type === "graphic" ? graphicExplanation : phoneticExplanation;
+    const [title, ...restLines] = fullText.split("\n");
+
+    explainText.innerHTML = "";
+
+    const titleElement = document.createElement("h3");
+    titleElement.className = "explain-title";
+    titleElement.textContent = title.trim();
+
+    const bodyElement = document.createElement("div");
+    bodyElement.className = "explain-body";
+    bodyElement.textContent = restLines.join("\n").trim();
+
+    explainText.append(titleElement, bodyElement);
     explainModal.classList.add("show");
-    explainText.textContent =
-        type === "graphic" ? graphicExplanation : phoneticExplanation;
 }
 
 function closeExplain(){
@@ -696,7 +721,3 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
-
-
-
-
