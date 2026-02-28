@@ -29,6 +29,8 @@
 }
 
 body {
+    position: relative;
+    isolation: isolate;
     margin: 0;
     padding: 32px 16px;
     background-color: var(--bg-base);
@@ -39,14 +41,53 @@ body {
         radial-gradient(circle at 84% 82%, var(--bg-gradient-4) 0%, transparent 47%),
         linear-gradient(130deg, var(--bg-deep-1), var(--bg-deep-2) 50%, var(--bg-deep-3));
     background-size: 170% 170%, 175% 175%, 180% 180%, 170% 170%, 100% 100%;
-    animation: bgFlow 9s ease-in-out infinite alternate;
+    animation: bgFlow 5.5s ease-in-out infinite alternate;
     min-height: 100vh;
     color: var(--text-main);
     font-family: Montserrat, sans-serif;
     line-height: 1.5;
 }
 
-    body.dark-theme {
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 52%),
+        radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.3) 0%, transparent 56%);
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: -24% -10%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.42;
+    background:
+        repeating-radial-gradient(
+            140% 95% at 8% 18%,
+            rgba(255, 255, 255, 0.34) 0 1.2px,
+            rgba(255, 255, 255, 0) 1.2px 18px
+        ),
+        repeating-radial-gradient(
+            126% 92% at 88% 74%,
+            rgba(255, 255, 255, 0.25) 0 1.1px,
+            rgba(255, 255, 255, 0) 1.1px 16px
+        ),
+        repeating-radial-gradient(
+            118% 88% at 52% 42%,
+            rgba(12, 20, 52, 0.14) 0 1px,
+            rgba(12, 20, 52, 0) 1px 14px
+        );
+    background-size: 175% 160%, 160% 150%, 150% 145%;
+    transform-origin: center;
+    animation: floatingLines 6.2s linear infinite;
+}
+
+body.dark-theme {
     --bg-base: #0b1120;
     --bg-gradient-1: #0b1f4f;
     --bg-gradient-2: #030a1e;
@@ -66,7 +107,34 @@ body {
     --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.28);
 }
 
-    @keyframes bgFlow {
+body.dark-theme::before {
+    background:
+        radial-gradient(circle at 20% 24%, rgba(72, 94, 255, 0.18) 0%, transparent 54%),
+        radial-gradient(circle at 74% 74%, rgba(123, 157, 255, 0.12) 0%, transparent 60%);
+}
+
+body.dark-theme::after {
+    opacity: 0.56;
+    background:
+        repeating-radial-gradient(
+            140% 95% at 8% 18%,
+            rgba(144, 174, 255, 0.3) 0 1.2px,
+            rgba(144, 174, 255, 0) 1.2px 18px
+        ),
+        repeating-radial-gradient(
+            126% 92% at 88% 74%,
+            rgba(201, 219, 255, 0.2) 0 1.1px,
+            rgba(201, 219, 255, 0) 1.1px 16px
+        ),
+        repeating-radial-gradient(
+            118% 88% at 52% 42%,
+            rgba(109, 144, 255, 0.17) 0 1px,
+            rgba(109, 144, 255, 0) 1px 14px
+        );
+    background-size: 175% 160%, 160% 150%, 150% 145%;
+}
+
+@keyframes bgFlow {
     0% {
         background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 0% 0%;
     }
@@ -75,6 +143,32 @@ body {
     }
     100% {
         background-position: 100% 10%, 0% 25%, 100% 70%, 0% 85%, 0% 0%;
+    }
+}
+
+@keyframes floatingLines {
+    0% {
+        transform: translate3d(-1.4%, -1%, 0) scale(1.03);
+        background-position: 0 0, 0 0, 0 0;
+    }
+    50% {
+        transform: translate3d(1.6%, 1.4%, 0) scale(1.07);
+        background-position: 48px -36px, -40px 30px, 24px -26px;
+    }
+    100% {
+        transform: translate3d(-1.4%, -1%, 0) scale(1.03);
+        background-position: 96px -72px, -80px 60px, 48px -52px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        animation-duration: 3.2s;
+    }
+
+    body::after {
+        opacity: 0.58;
+        animation-duration: 3.6s;
     }
 }
 
@@ -89,12 +183,12 @@ body {
 }
 
 .card h2 {
-    text-align: center;  
+    text-align: center;
     margin-top: 0;
     margin-bottom: 14px;
     letter-spacing: 0.2px;
-    font-weight: 600;    
-    color: var(--text-main); 
+    font-weight: 600;
+    color: var(--text-main);
 }
 
 h2 {
@@ -306,7 +400,7 @@ button:active {
 <body>
 
     <button id="themeToggle" class="theme-toggle" type="button" onclick="toggleTheme()">🌙 Obscur thema</button>
-    
+
 <!-- 1. Graphic similaritá -->
 <div class="card">
     <h2>Graphic similaritá</h2>
@@ -721,3 +815,4 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
