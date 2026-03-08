@@ -33,15 +33,12 @@ body {
     isolation: isolate;
     margin: 0;
     padding: 32px 16px;
-    background-color: var(--bg-base);
-    background-image:
-        radial-gradient(circle at 8% 18%, var(--bg-gradient-1) 0%, transparent 45%),
-        radial-gradient(circle at 88% 12%, var(--bg-gradient-2) 0%, transparent 42%),
-        radial-gradient(circle at 14% 84%, var(--bg-gradient-3) 0%, transparent 43%),
-        radial-gradient(circle at 84% 82%, var(--bg-gradient-4) 0%, transparent 47%),
-        linear-gradient(130deg, var(--bg-deep-1), var(--bg-deep-2) 50%, var(--bg-deep-3));
-    background-size: 170% 170%, 175% 175%, 180% 180%, 170% 170%, 100% 100%;
-    animation: bgFlow 5.5s ease-in-out infinite alternate;
+   background-color: var(--bg-base);
+    background-image: url("https://i.pinimg.com/736x/4d/37/42/4d3742950569294c7e36e0934a2afd9a.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     min-height: 100vh;
     color: var(--text-main);
     font-family: Montserrat, sans-serif;
@@ -105,6 +102,8 @@ body.dark-theme {
     --accent-soft: rgba(139, 166, 255, 0.35);
     --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.35);
     --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.28);
+
+    background-image: url("https://i.pinimg.com/736x/b3/90/1a/b3901a185b691a4ad06ce007ec93dc7b.jpg");
 }
 
 body.dark-theme::before {
@@ -815,4 +814,5 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
