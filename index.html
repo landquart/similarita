@@ -119,12 +119,33 @@ button {
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.2px;
-    background: var(--accent);
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-hover) 50%, var(--accent) 100%);
+    background-size: 220% 220%;
+    background-position: 0% 50%;
     color: var(--bg-base);
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
     box-shadow: var(--shadow-soft);
+    transform: scale(1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.35s ease;
+}
+
+button:hover,
+button:focus-visible {
+    background-position: 100% 50%;
+    transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(31, 41, 55, 0.18);
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+body.dark-theme button:hover,
+body.dark-theme button:focus-visible {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.55);
+
 }
 
 .theme-toggle {
@@ -638,6 +659,7 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
+
 
 
 
