@@ -17,6 +17,9 @@
     --accent: #111111;
     --accent-hover: #000000;
     --accent-soft: rgba(17, 17, 17, 0.15);
+    --button-grad-start: #2d2d2d;
+    --button-grad-end: #111111;
+    --button-hover-glow: rgba(17, 17, 17, 0.2);
     --radius-lg: 18px;
     --radius-md: 12px;
     --shadow-card: 0 12px 30px rgba(31, 41, 55, 0.12);
@@ -48,6 +51,9 @@ body.dark-theme {
     --accent: #f5f7ff;
     --accent-hover: #ffffff;
     --accent-soft: rgba(245, 247, 255, 0.3);
+    --button-grad-start: #f5f7ff;
+    --button-grad-end: #dfe6ff;
+    --button-hover-glow: rgba(245, 247, 255, 0.28);
     --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.6);
     --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.45);
     background-image: url("images/topography bg dark.svg");
@@ -119,24 +125,43 @@ button {
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.2px;
-    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-hover) 50%, var(--accent) 100%);
-    background-size: 220% 220%;
-    background-position: 0% 50%;
+    background: var(--accent);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     color: var(--bg-base);
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
     box-shadow: var(--shadow-soft);
     transform: scale(1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.35s ease;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: linear-gradient(120deg, var(--button-grad-start) 0%, var(--button-grad-end) 45%, var(--button-grad-start) 100%);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    transition: opacity 0.25s ease, background-position 0.45s ease;
 }
 
 button:hover,
 button:focus-visible {
-    background-position: 100% 50%;
-    transform: scale(1.03);
-    box-shadow: 0 12px 24px rgba(31, 41, 55, 0.18);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px var(--button-hover-glow);
 }
+
+button:hover::before,
+button:focus-visible::before {
+    opacity: 1;
+    background-position: 100% 50%;
+}
+
 
 button:active {
     transform: scale(0.99);
@@ -144,7 +169,7 @@ button:active {
 
 body.dark-theme button:hover,
 body.dark-theme button:focus-visible {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.55);
+  color: #111111;
 
 }
 
@@ -659,13 +684,3 @@ explainModal.onclick = function(e){
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
